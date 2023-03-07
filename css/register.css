@@ -1,0 +1,55 @@
+*{
+    background: url(../assets/background1.jpg);
+    background-attachment: fixed;
+    background-size: cover;
+}
+/* Form container */
+.form-container {
+    max-width: 500px;
+    margin: auto;
+    padding: 30px;
+    background-color: #ffffff;
+    box-shadow: 0px 0px 5px #aaa;
+  }
+  
+  /* Form input fields */
+  input[type=text], input[type=password], input[type=email] {
+    width: 100%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    display: inline-block;
+    border: 2px solid #7d7c7c;
+    border-radius: 30px;
+    box-sizing: border-box;
+  }
+  
+  /* Form submit button */
+  input[type="submit"] {
+    width:100%;
+    padding: 10px;
+    font-size: 1.2rem;
+    margin-bottom: 10px;
+    background: #3b8a40;
+    color: #ffffff;
+    border-radius: 30px;
+    cursor: pointer;
+  }
+  h1{
+    text-align: center;
+  }
+  
+  /* Form cancel button */
+  input[type="cancel"] {
+    background-color: #f44336;
+    color: white;
+    padding: 12px 20px;
+    margin: 8px 0;
+    border: 5px;
+    cursor: pointer;
+    width: 100%;
+  }
+  
+  /* Form link */
+  a {
+    color: dodgerblue;
+  }
