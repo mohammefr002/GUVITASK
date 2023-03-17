@@ -9,5 +9,4 @@ HTML, JS, CSS, and PHP code  in separate files, none of the codes has co-exist i
 Flow : Register > Login > Profile
 ![Screenshot 2023-03-07 144959](https://user-images.githubusercontent.com/127182438/223378538-0236dff9-8cfd-4919-83ed-d5b77a2ba7a6.png)
 NOTE: From the above task:developer i have completed so far my best.
-unfortunately,to Use Redis to store the session information in the backend its bit complicated and new to me,
-fortunately i have learned more from this task and future i can able fulfill the requirement.
+and to Use Redis and mongo db to store the session information in the backend is also included.
