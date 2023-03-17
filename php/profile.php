@@ -1,40 +1,39 @@
 <?php
-session_start();
-// check if the user is logged in
-if (!isset($_SESSION['user_id'])) {
-  header("Location: profile.php");
-  exit();
+
+$client = new MongoClient();
+$redis = new Redis();
+
+if (!$client->connect() || !$redis->connect()) {
+    exit('Failed to connect to MongoDB or Redis.');
 }
 
-// get the form data
-$name = $_POST['name'];
-$email = $_POST['email'];
-$age = $_POST['age'];
-$dob = $_POST['dob'];
-$contact = $_POST['contact'];
-
-// validate the form data
-if (empty($name) || empty($email) || empty($age) || empty($dob) || empty($contact)) {
-  $_SESSION['error'] = "Please fill in all fields.";
-  header("Location: update.php");
-  exit();
+if (isset($_POST['save'])) {
+    $document = array(
+        'name' => $_POST['name'],
+        'email'=> $_POST['email'],
+        'dob' => $_POST['dob'],
+        'age' => $_POST['age'],
+        'contact' => $_POST['contact'],
+    );
+    $redis->set($_POST['name'], json_encode($document));
+    $client->selectDB('users')->selectCollection('profiles')->insert($document);
+    exit('Data saved successfully!');
 }
 
-// update the user profile in the database
-$user_id = $_SESSION['user_id'];
-$db_conn = mysqli_connect("localhost", "username", "password", "database_name");
-if (!$db_conn) {
-  die("Connection failed: " . mysqli_connect_error());
-}
-$sql = "UPDATE users SET name='$name', email='$email', age=$age, dob='$dob', contact='$contact' WHERE id=$user_id";
-$result = mysqli_query($db_conn, $sql);
-if (!$result) {
-  $_SESSION['error'] = "Failed to update profile.";
-  header("Location: update.php");
-  exit();
+$name = $_GET['name'];
+$document = $redis->get($name);
+if (!$document) {
+    $document = $client->selectDB('users')->selectCollection('profiles')->findOne(array('name' => $name));
+    $redis->set($name, json_encode($document));
 }
 
-// redirect to the profile page
-header("Location: profile.php");
-exit();
 ?>
+
+<form method="POST">
+    Name: <input type="text" name="name" value="<?php echo $document['name'] ?>" /><br />
+    Email: <input type="text" name="email" value="<?php echo $document['email'] ?>" /><br />
+    Age: <input type="text" name="age" value="<?php echo $document['age'] ?>" /><br />
+    dob: <input type="text" name="dob" value="<?php echo $document['dob'] ?>" /><br />
+    contact: <input type="text" name="contact" value="<?php echo $document['contact'] ?>" /><br />
+    <input type="submit" name="save" value="Save" />
+</form>

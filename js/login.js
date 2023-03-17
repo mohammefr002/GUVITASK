@@ -1,34 +1,35 @@
-// Selecting the login form and input fields
-const loginForm = document.querySelector('.login-form');
-const emailInput = document.querySelector('#name');
-const passwordInput = document.querySelector('#password');
 
-// Adding an event listener to the login form
-loginForm.addEventListener('submit', (event) => {
-  // Preventing the default form submission
-  event.preventDefault();
 
-  // Getting the values of the email and password inputs
-  const emailValue = emailInput.value.trim();
-  const passwordValue = passwordInput.value.trim();
+$(document).ready(function()
+{
+  $("#login-form").submit(function(event){
+    event.preventDefault();
 
-  // Validating the email and password fields
-  if (emailValue === '' || !isValidEmail(emailValue)) {
-    // Displaying an error message for the email field
-    emailInput.classList.add('error');
-    emailInput.nextElementSibling.textContent = 'Please enter a valid email address.';
-  } else if (passwordValue === '') {
-    // Displaying an error message for the password field
-    passwordInput.classList.add('error');
-    passwordInput.nextElementSibling.textContent = 'Please enter your password.';
-  } else {
-    // Submitting the form if both fields are valid
-    loginForm.submit();
-  }
+    // Get the values of the form fields
+    var name = $("#name").val();
+    var password = $("#password").val();
+
+    // Make an AJAX call to the server
+    $.ajax({
+      type: "POST",
+      url: "php/login.php",
+      dataType: 'json',
+      data: {
+        name: name,
+        password: password
+      },
+      success: function(response) {
+        if (response.status == "success") {
+          // Redirect the user to the success page
+          window.location.href = "/success";
+        } else {
+          // Show an error message
+          $("#error-message").html(response.message);
+        }
+      },
+      error: function(xhr, status, error) {
+        console.log("Error:", error);
+      }
+    });
+  });
 });
-
-// Helper function to validate email addresses
-function isValidEmail(email) {
-  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  return emailRegex.test(email);
-}

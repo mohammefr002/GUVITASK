@@ -31,3 +31,15 @@ $(document).ready(function() {
     });
 });
 }
+function checkPass() {
+   var password = document.getElementById('password');
+   var confirm_password = document.getElementById('confirm_password');
+ 
+  if (password.value == confirm_password.value) {
+    alert('Passwords Match!!');
+  } else {
+    alert('Passwords Do Not Match!!');
+  }
+}
+
+

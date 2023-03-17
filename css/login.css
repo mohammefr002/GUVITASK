@@ -13,7 +13,7 @@
 label{
   text-decoration: solid;
   color: #000000;
-  text-align:20%;
+  text-align:left;
 }
   /* Form input fields */
   input[type=text],
